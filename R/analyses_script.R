@@ -1,20 +1,22 @@
-#################################################
+#######################################################################
 # TITLE: NOCTURNAL URBAN TURBULENCE DATA ANALYSES
 #
 # AUTHOR: YUSRI YUSUP, PHD
 # DATE: 2015-11-03
 # 
-# NOTE: "norm_sigU", etc. are normalised by ustar
-# NOTE: Use "z_L2" as the final stability parameter after correction
+# NOTE 1: "norm_sigU", etc. are normalised by ustar
+# NOTE 2: Use "z_L2" as the final stability parameter after correction
 # following recommendations by Schotanus et al. where w'T' multiplied
 # by 0.10
-# NOTE: Need to multiply wT with 0.10 for correction (Schotanus et al.)
-##################################################
-#### 1. Load the data ####
+# NOTE 3: Need to multiply wT with 0.10 for humidity correction 
+# (Schotanus et al.)
+#######################################################################
+
+#### 1. Load the data #################################################
 secA <- read.csv('data/sectorA.csv',header=TRUE)
 secD <- read.csv('data/sectorD.csv',header=TRUE)
 
-#### 2. Data processing ####
+#### 2. Data processing ###############################################
 # Add a column of "eff_height"
 # Height of the RM Young 81000 sonic anemometer from the roof in [m].
 secA["eff_height"] <- 4.5
@@ -46,8 +48,13 @@ secD["Tstar"] <- TstarD
 secA["ufl"] <- ((9.80 / secA$Tavg) * secA$wT * secA$eff_height)^(0.333)
 secD["ufl"] <- ((9.80 / secD$Tavg) * secD$wT * secD$eff_height)^(0.333)
 
-rm(wTA,wTD,TstarA,TstarD)
+# Normalized sigW with ufl and add to dataframe
+norm2_wTA <- secA$SigW/secA$ufl
+norm2_wTD <- secD$SigW/secD$ufl
 
-#L_tempA <- (-1) * secA$ustar^3 * secA$Tavg/(9.80 *0.4 * secA$wT)
-#L_tempA1 <- ((-1) * secA$ustar^3 * secA$Tavg)/(9.80 * 0.4 * (0.1 * secA$wT))
-                                             
+secA["norm2_wT"] <- norm2_wTA
+secD["norm2_wT"] <- norm2_wTD
+
+rm(wTA,wTD,TstarA,TstarD,norm2_wTA,norm2_wTD)
+
+
