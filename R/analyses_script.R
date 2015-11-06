@@ -70,44 +70,55 @@ rm(wTA,wTD,TstarA,TstarD,norm2_SigWA,norm2_SigWD)
 
 # Separate the data into stable
 sigWAstable <- secA$SigW[which(secA$z_L2>0)]
+
+norm_sigWAstable <- secA$norm_sigW[which(secA$z_L2>0)]
+norm2_sigWAstable <- secA$norm2_SigW[which(secA$z_L2>0)]
+norm_sigTAstable <- secA$norm_sigT[which(secA$z_L2>0)]
+Az_Lstable <- secA$z_L2[which(secA$z_L2>0)]
+
 uflAstable <- secA$ufl[which(secA$z_L2>0)]
 ustarAstable <- secA$ustar[which(secA$z_L2>0)]
-secAstable <- data.frame(sigWAstable,uflAstable,ustarAstable)
+secAstable <- data.frame(sigWAstable,uflAstable,ustarAstable,norm_sigWAstable,
+                         norm2_sigWAstable,Az_Lstable,norm_sigTAstable)
 
 sigWDstable <- secD$SigW[which(secD$z_L2>0)]
+
+norm_sigWDstable <- secD$norm_sigW[which(secD$z_L2>0)]
+norm2_sigWDstable <- secD$norm2_SigW[which(secD$z_L2>0)]
+norm_sigTDstable <- secD$norm_sigT[which(secD$z_L2>0)]
+Dz_Lstable <- secD$z_L2[which(secD$z_L2>0)]
+
 uflDstable <- secD$ufl[which(secD$z_L2>0)]
 ustarDstable <- secD$ustar[which(secD$z_L2>0)]
-secDstable <- data.frame(sigWDstable,uflDstable,ustarDstable)
-
-rm(sigWAstable,uflAstable,ustarAstable,sigWDstable,uflDstable,ustarDstable)
+secDstable <- data.frame(sigWDstable,uflDstable,ustarDstable,norm_sigWDstable,
+                         norm2_sigWDstable,Dz_Lstable,norm_sigTDstable)
 
 # Separate the data into unstable
 sigWAunstable <- secA$SigW[which(secA$z_L2<0)]
 
 norm_sigWAunstable <- secA$norm_sigW[which(secA$z_L2<0)]
 norm2_sigWAunstable <- secA$norm2_SigW[which(secA$z_L2<0)]
+norm_sigTAunstable <- secA$norm_sigT[which(secA$z_L2<0)]
 Az_Lunstable <- secA$z_L2[which(secA$z_L2<0)]
 
 uflAunstable <- secA$ufl[which(secA$z_L2<0)]
 ustarAunstable <- secA$ustar[which(secA$z_L2<0)]
 secAunstable <- data.frame(sigWAunstable,uflAunstable,ustarAunstable,
-                           norm_sigWAunstable,norm2_sigWAunstable,Az_Lunstable)
+                           norm_sigWAunstable,norm2_sigWAunstable,Az_Lunstable,
+                           norm_sigTAunstable)
 
 sigWDunstable <- secD$SigW[which(secD$z_L2<0)]
 
 norm_sigWDunstable <- secD$norm_sigW[which(secD$z_L2<0)]
 norm2_sigWDunstable <- secD$norm2_SigW[which(secD$z_L2<0)]
+norm_sigTDunstable <- secD$norm_sigT[which(secD$z_L2<0)]
 Dz_Lunstable <- secD$z_L2[which(secD$z_L2<0)]
 
 uflDunstable <- secD$ufl[which(secD$z_L2<0)]
 ustarDunstable <- secD$ustar[which(secD$z_L2<0)]
 secDunstable <- data.frame(sigWDunstable,uflDunstable,ustarDunstable,
-                           norm_sigWDunstable,norm2_sigWDunstable,Dz_Lunstable)
-
-rm(sigWAunstable,uflAunstable,ustarAunstable,sigWDunstable,uflDunstable,
-   ustarDunstable,sigWAunstable,uflAunstable,ustarAunstable,
-   norm_sigWAunstable,norm2_sigWAunstable,Az_Lunstable,sigWDunstable,
-   uflDunstable,ustarDunstable,norm_sigWDunstable,norm2_sigWDunstable,Dz_Lunstable)
+                           norm_sigWDunstable,norm2_sigWDunstable,Dz_Lunstable,
+                           norm_sigTDunstable)
 
 # Partial correlation coefficient analysis
 
@@ -127,7 +138,7 @@ pcor(c('sigWDstable','ustarDstable','uflDstable'),var(secDstable))
 # Holding ustar constant
 pcor(c('sigWDstable','uflDstable','ustarDstable'),var(secDstable))
 
-pl
+
 # Unstable and for sector A-B
 pcor(c('sigWAunstable','ustarAunstable'),var(secAunstable))
 pcor(c('sigWAunstable','uflAunstable'),var(secAunstable))
